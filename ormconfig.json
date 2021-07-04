@@ -3,6 +3,8 @@
   "database": "src/database/database.sqlite",
   "migrations": ["src/database/migrations/*.ts"],
   "entities": ["src/entities/*.ts"],
+  "autoSchemaSync": false,
+
   "cli": {
     "migrationsDir": "src/database/migrations",
     "entitiesDir": "src/entities"
