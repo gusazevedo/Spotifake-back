@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateFollowers1625409246638 implements MigrationInterface {
+export class CreateAlbums1625539183740 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "followers",
+        name: "albums",
         columns: [
           {
             name: "id",
@@ -12,33 +12,34 @@ export class CreateFollowers1625409246638 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: "user_follower",
+            name: "user_id",
             type: "uuid",
           },
           {
-            name: "user_followed",
-            type: "uuid",
+            name: "name",
+            type: "varchar",
+          },
+          {
+            name: "publication_date",
+            type: "varchar",
           },
           {
             name: "created_at",
             type: "timestamp",
             default: "now()",
           },
+          {
+            name: "updated_at",
+            type: "timestamp",
+            default: "now()",
+          },
         ],
         foreignKeys: [
           {
-            name: "FKUserFollower",
+            name: "FKUserId",
             referencedTableName: "users",
             referencedColumnNames: ["id"],
-            columnNames: ["user_follower"],
-            onDelete: "SET NULL",
-            onUpdate: "SET NULL",
-          },
-          {
-            name: "FKUserFollowed",
-            referencedTableName: "users",
-            referencedColumnNames: ["id"],
-            columnNames: ["user_followed"],
+            columnNames: ["user_id"],
             onDelete: "SET NULL",
             onUpdate: "SET NULL",
           },
@@ -48,6 +49,6 @@ export class CreateFollowers1625409246638 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("followers");
+    await queryRunner.dropTable("albums");
   }
 }
