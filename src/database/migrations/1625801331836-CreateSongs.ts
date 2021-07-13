@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateAlbums1625539183740 implements MigrationInterface {
+export class CreateSongs1625801331836 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "albums",
+        name: "songs",
         columns: [
           {
             name: "id",
@@ -16,11 +16,11 @@ export class CreateAlbums1625539183740 implements MigrationInterface {
             type: "uuid",
           },
           {
-            name: "name",
-            type: "varchar",
+            name: "album_id",
+            type: "uuid",
           },
           {
-            name: "cover",
+            name: "name",
             type: "varchar",
           },
           {
@@ -36,10 +36,18 @@ export class CreateAlbums1625539183740 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: "FKUserId",
+            name: "FKSongUser",
             referencedTableName: "users",
             referencedColumnNames: ["id"],
             columnNames: ["user_id"],
+            onDelete: "SET NULL",
+            onUpdate: "SET NULL",
+          },
+          {
+            name: "FKSongAlbum",
+            referencedTableName: "albums",
+            referencedColumnNames: ["id"],
+            columnNames: ["album_id"],
             onDelete: "SET NULL",
             onUpdate: "SET NULL",
           },
@@ -49,6 +57,6 @@ export class CreateAlbums1625539183740 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("albums");
+    await queryRunner.dropTable("songs");
   }
 }

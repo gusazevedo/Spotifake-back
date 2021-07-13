@@ -4,11 +4,11 @@ import { AlbumsRepositories } from "../repositories/AlbumsRepositories";
 interface IAlbumRequest {
   name: string;
   user_id: string;
-  publication_date: string;
+  cover: string;
 }
 
 class CreateAlbumService {
-  async execute({ name, user_id, publication_date }: IAlbumRequest) {
+  async execute({ name, user_id, cover }: IAlbumRequest) {
     const albumsRepositories = getCustomRepository(AlbumsRepositories);
 
     if (!name) {
@@ -27,7 +27,7 @@ class CreateAlbumService {
     const album = albumsRepositories.create({
       name,
       user_id,
-      publication_date,
+      cover,
     });
 
     await albumsRepositories.save(album);

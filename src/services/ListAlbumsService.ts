@@ -6,7 +6,7 @@ class ListAlbumsService {
     const albumsRepositories = getCustomRepository(AlbumsRepositories);
 
     const albumns = await albumsRepositories.find({
-      user_id: user_id,
+      user_id,
     });
 
     return albumns;

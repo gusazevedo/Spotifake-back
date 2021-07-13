@@ -7,10 +7,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Album } from "./Album";
 import { User } from "./User";
 
-@Entity("albums")
-class Album {
+@Entity("songs")
+class Song {
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
@@ -22,10 +23,14 @@ class Album {
   userId: User;
 
   @Column()
-  name: string;
+  album_id: string;
+
+  @JoinColumn({ name: "album_id" })
+  @ManyToOne(() => Album)
+  albumName: Album;
 
   @Column()
-  cover: string;
+  name: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -34,4 +39,4 @@ class Album {
   updated_at: Date;
 }
 
-export { Album };
+export { Song };

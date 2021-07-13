@@ -1,4 +1,5 @@
 import { compare } from "bcryptjs";
+import { response } from "express";
 import { sign } from "jsonwebtoken";
 import { getCustomRepository } from "typeorm";
 import { UsersRepositories } from "../repositories/UsersRepositories";
@@ -28,7 +29,7 @@ class AuthenticateUserService {
 
     const token = sign(
       {
-        email: user.email,
+        tag: user.tag,
       },
       "4e8bfc8933d87c40e8802383200e9212",
       {
@@ -37,7 +38,12 @@ class AuthenticateUserService {
       }
     );
 
-    return token;
+    const retorno = {
+      token: token,
+      userId: user.id,
+    };
+
+    return retorno;
   }
 }
 

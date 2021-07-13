@@ -1,10 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
+import { router } from "./routes";
+import cors from "cors";
 import "express-async-errors";
 import "reflect-metadata";
 import "./database";
-import { router } from "./routes";
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 
@@ -25,4 +27,4 @@ app.use(
   }
 );
 
-app.listen(3000, () => console.log("Server is running"));
+app.listen(3030, () => console.log("Server is running"));

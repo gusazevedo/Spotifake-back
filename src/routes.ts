@@ -1,46 +1,35 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
 import { CreateFollowerController } from "./controllers/CreateFollowerController";
-import { CreateUserController } from "./controllers/CreateUserController";
-import { CreateSongController } from "./controllers/CreateSongController";
-import { CreateAlbumController } from "./controllers/CreateAlbumController";
+import { SongController } from "./controllers/SongController";
+import { AlbumController } from "./controllers/AlbumController";
 import { ListUserFollowedByController } from "./controllers/ListUserFollowedByController";
 import { ListUserFollowingController } from "./controllers/ListUserFollowingController";
-import { ListAlbumsController } from "./controllers/ListAlbumsController";
-import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
-import { songsUpdate } from "./config/multer";
-import multer from "multer";
+import { CreateUserController } from "./controllers/CreateUserController";
 
 const router = Router();
 
 const createUserController = new CreateUserController();
 const authenticateUserController = new AuthenticateUserController();
 const createFollowerController = new CreateFollowerController();
-const createSongController = new CreateSongController();
-const createAlbumController = new CreateAlbumController();
+const songController = new SongController();
+const albumController = new AlbumController();
 const listUserFollowedByController = new ListUserFollowedByController();
 const listUserFollowingController = new ListUserFollowingController();
-const listAlbumsController = new ListAlbumsController();
 
-router.post("/users", createUserController.handle);
 router.post("/login", authenticateUserController.hendle);
-router.post("/follow", ensureAuthenticated, createFollowerController.handle);
-router.post("/album", ensureAuthenticated, createAlbumController.handle);
-router.post(
-  "/song/upload",
-  multer(songsUpdate).single("file"),
-  createSongController.handle
-);
-router.get("/user/albums", ensureAuthenticated, listAlbumsController.handle);
-router.get(
-  "/user/followers",
-  ensureAuthenticated,
-  listUserFollowedByController.handle
-);
-router.get(
-  "/user/following",
-  ensureAuthenticated,
-  listUserFollowingController.handle
-);
+router.post("/users", createUserController.handle);
+
+router.post("/create/album", albumController.store);
+router.get("/list/albums/:id", albumController.list);
+router.delete("/delete/album/:id", albumController.delete);
+
+router.post("/follow", createFollowerController.handle);
+router.get("/user/followers", listUserFollowedByController.handle);
+router.get("/user/following", listUserFollowingController.handle);
+
+router.post("/upload/song", songController.store);
+router.get("/list/songs/:id", songController.list);
+router.delete("/delete/song/:id", songController.delete);
 
 export { router };
